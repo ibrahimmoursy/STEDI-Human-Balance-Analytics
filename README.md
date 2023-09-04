@@ -5,8 +5,8 @@
 + [Problem Statement](#Problem-Statement)
 + [Project Discription](#Project-Discription)
 + [Project Datasets](#Project-Datasets)
-+ [Project Files](#Project-Files)
-+ [How To Run](#How-To-Run)
++ [Implementation](Implementation)
+
 
 ---
 ## Problem Statement
@@ -44,16 +44,4 @@ AWS infrastructure is used to create storage zones (landing, trusted and curated
 
 ---
 
-### Project Files 
-This project consists of the following files:
-+ `sql_queries.py` - This file contains Postgres SQL queries in string formate. 
-+ `create_tables.py` - This script uses the sql_queries.py file to create new tables or drop old tables in the database.
-+ `etl.py` - This script is used to build ETL processes which will read every file contained S3 bucket, copy its data into tables in the Redshift Cluster, then insert its values into the Star Schema using variables in sql_queries.py file.
-+ `dwh.cfg` - This File contains the IAM role ARN, the path to S3 Datasets and the Redshift Cluster configurations.
-+ `test.ipynb` - This notebook is used for testing purposes after finishing, to run queries on (you can also run queries in AWS Redshift query editor). 
-
----
-
-### How To Run
-
-Firstly, you need to create IAM Role that has read access to S3 bucket, then you need to create the Redshift Cluster and assosiate the IAM role to it. After that, you need to fill in the IAM role ARN and the Redshift Cluster configurations into the `dwh.cfg` file. Finally run `create_tables.py` file to drop and create the tables and then run `etl.py` to insert the data into the tables.
+## Implementation
