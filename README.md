@@ -5,7 +5,7 @@
 + [Problem Statement](#Problem-Statement)
 + [Project Discription](#Project-Discription)
 + [Project Datasets](#Project-Datasets)
-+ [Implementation](Implementation)
++ [Implementation](#Implementation)
 
 
 ---
@@ -45,5 +45,61 @@ AWS infrastructure is used to create storage zones (landing, trusted and curated
 ---
 
 ## Implementation
+<details>
+<summary>
+Landing Zone
+</summary>
 
-asjhasdnkasdmasmdlsad
+> In the Landing Zone I stored the customer, accelerometer and step trainer raw data in AWS S3 bucket. 
+
+Using The AWS glue data catalog, I created a glue tables so that I can query the data using AWS athena.
+
+1- Customer Landing Table:
+
+![alt text](Screenshots/customer_landing.png)
+
+2- Accelerometer Landing Table: 
+
+![alt text](Screenshots/accelerometer_landing.png)
+
+3- Step Trainer Landing Table: 
+
+![alt text](Screenshots/step_trainer_landing.png)
+
+</details>
+</details>
+
+<details>
+<summary>
+Trusted Zone
+</summary>
+
+> In the Trusted Zone, I created AWS Glue jobs to make transofrmations on the raw data in the landing zones.
+
+**Glue job scripts**
+
+[1. customer_landing_to_trusted.py](customer_landing_to_trusted.py) - This script transfers customer data from the 'landing' to 'trusted' zones. It filters for customers who have agreed to share data with researchers.
+
+[2. accelerometer_landing_to_trusted.py](accelerometer_landing_to_trusted.py) - This script transfers accelerometer data from the 'landing' to 'trusted' zones. Using a join on customer_trusted and accelerometer_landing, It filters for Accelerometer readings from customers who have agreed to share data with researchers.
+
+[3. Trainer_landing_to_trusted.py](Trainer_landing_to_trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
+
+The customer_trusted table was queried in Athena to show that it only contains customer records from people who agreed to share their data.
+
+![alt text](Screenshots/customer_trusted_sharwithreasearchasofdate_null.png)
+</details>
+
+<details>
+<summary>
+Curated Zone
+</summary>
+
+> In the Curated Zone I created AWS Glue jobs to make further transformations, to meet the specific needs of a particular analysis.
+
+**Glue job scripts**
+
+[customer_trusted_to_curated.py](customer_trusted_to_curated.py) - This script transfers customer data from the 'trusted' to 'curated' zones. Using a join on customer_trusted and accelerometer_landing, It filters for customers with Accelerometer readings and have agreed to share data with researchers.
+
+[step_trainer_trusted_to_curated.py](step_trainer_landing_to_trusted.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
+
+</details>
