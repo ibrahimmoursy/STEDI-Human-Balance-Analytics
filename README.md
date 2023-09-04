@@ -67,7 +67,6 @@ Using The AWS glue data catalog, I created a glue tables so that I can query the
 ![alt text](Screenshots/step_trainer_landing.png)
 
 </details>
-</details>
 
 <details>
 <summary>
